@@ -93,40 +93,49 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
 
   if (categories !== undefined && categories.length === 0) {
     return (
-      <div className="fixed inset-x-0 bottom-0 z-20 rounded-t-2xl bg-[var(--color-surface)] shadow-2xl">
-        <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-[var(--color-border)]" />
+      <div className="fixed inset-x-0 bottom-0 z-20 rounded-t-2xl bg-[var(--color-surface)] shadow-2xl animate-sheet-up">
+        <div className="mx-auto mt-2.5 h-1 w-10 rounded-full bg-[var(--color-border)]" />
         <div className="flex flex-col items-center gap-3 p-8 text-center">
-          <span className="text-4xl">🏷️</span>
-          <p className="text-sm font-medium text-[var(--color-text)]">Aucune catégorie</p>
-          <p className="text-xs text-[var(--color-text-muted)]">Créez une catégorie depuis l'onglet Catégories avant d'ajouter un point.</p>
-          <button onClick={onClose} className="mt-2 rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm text-[var(--color-text-muted)]">Fermer</button>
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-surface-2)] text-3xl">🏷️</div>
+          <p className="text-sm font-semibold text-[var(--color-text)]">Aucune catégorie</p>
+          <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">Créez une catégorie depuis l'onglet Catégories avant d'ajouter un point.</p>
+          <button onClick={onClose} className="mt-2 rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-[var(--color-text-muted)] active:scale-95 transition-transform">Fermer</button>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 max-h-[90dvh] overflow-y-auto rounded-t-2xl bg-[var(--color-surface)] shadow-2xl">
-      <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-[var(--color-border)]" />
+    <div className="fixed inset-x-0 bottom-0 z-20 max-h-[90dvh] overflow-y-auto rounded-t-2xl bg-[var(--color-surface)] shadow-2xl animate-sheet-up">
+      <div className="mx-auto mt-2.5 h-1 w-10 rounded-full bg-[var(--color-border)]" />
 
       <div className="flex flex-col gap-4 p-5 pb-8">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-[var(--color-text)]">Nouveau point</h2>
-          <button onClick={onClose} className="text-[var(--color-text-muted)] text-xl">✕</button>
+          <h2 className="text-base font-semibold text-[var(--color-text)]">Nouveau point</h2>
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-muted)] active:scale-90 transition-transform"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
         {/* Itinéraire */}
         <div>
-          <label className="mb-1 block text-xs font-medium text-[var(--color-text-muted)]">
-            Itinéraire <span className="font-normal">(optionnel)</span>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
+            Itinéraire <span className="font-normal normal-case">(optionnel)</span>
           </label>
           <button
             type="button"
             onClick={() => setItineraryOpen((o) => !o)}
-            className="flex w-full items-center justify-between rounded-xl border border-[var(--color-border)] bg-white px-3 py-2 text-sm text-[var(--color-text)]"
+            className="flex w-full items-center justify-between rounded-xl border border-[var(--color-border)] bg-white px-3 py-2.5 text-sm text-[var(--color-text)] active:bg-stone-50 transition-colors"
           >
             <span>{itineraries?.find((i) => i.id === effectiveItineraryId)?.name ?? 'Sans itinéraire'}</span>
-            <span className="text-[var(--color-text-muted)] text-xs">{itineraryOpen ? '▲' : '▼'}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={`text-[var(--color-text-muted)] transition-transform ${itineraryOpen ? 'rotate-180' : ''}`}>
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
           </button>
           {itineraryOpen && (
             <div className="mt-1 overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
@@ -159,7 +168,7 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
 
         {/* Catégorie */}
         <div>
-          <label className="mb-1 block text-xs font-medium text-[var(--color-text-muted)]">
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
             Catégorie
           </label>
           <div className="flex gap-2 flex-wrap">
@@ -183,7 +192,7 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
 
         {/* Description */}
         <div>
-          <label className="mb-1 block text-xs font-medium text-[var(--color-text-muted)]">
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
             Description
           </label>
           <textarea
@@ -191,13 +200,13 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Notes, souvenirs…"
             rows={2}
-            className="w-full rounded-xl border border-[var(--color-border)] bg-white px-3 py-2 text-sm text-[var(--color-text)] resize-none"
+            className="w-full rounded-xl border border-[var(--color-border)] bg-white px-3 py-2.5 text-sm text-[var(--color-text)] resize-none placeholder:text-[var(--color-border)]"
           />
         </div>
 
         {/* Photos */}
         <div>
-          <label className="mb-1 block text-xs font-medium text-[var(--color-text-muted)]">
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
             Photos
           </label>
           <div className="flex gap-2 flex-wrap">
@@ -206,21 +215,21 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
                 <img
                   src={previews[i]}
                   alt=""
-                  className="h-16 w-16 rounded-lg object-cover"
+                  className="h-16 w-16 rounded-xl object-cover"
                 />
                 <button
                   onClick={() => removePhoto(i)}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white"
                 >
-                  ✕
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
               </div>
             ))}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex h-16 w-16 items-center justify-center rounded-lg border-2 border-dashed border-[var(--color-border)] text-2xl text-[var(--color-text-muted)]"
+              className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-dashed border-[var(--color-border)] text-[var(--color-text-muted)] active:bg-[var(--color-surface-2)] transition-colors"
             >
-              +
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
           </div>
           <input
@@ -239,9 +248,10 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full rounded-xl bg-[var(--color-accent)] py-3 text-sm font-semibold text-white active:scale-95 transition-transform disabled:opacity-60"
+          className="w-full rounded-xl bg-[var(--color-accent)] py-3.5 text-sm font-semibold text-white active:scale-[0.98] transition-transform disabled:opacity-60"
+          style={{ boxShadow: '0 2px 12px rgba(22,163,74,0.35)' }}
         >
-          {saving ? 'Enregistrement…' : 'Enregistrer'}
+          {saving ? 'Enregistrement…' : 'Enregistrer le point'}
         </button>
       </div>
     </div>

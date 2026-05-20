@@ -175,21 +175,21 @@ export default function PointDetailSheet({ pointId, onClose, onDeleted }: Props)
         )}
       </div>
     )}
-    <div className="fixed inset-x-0 bottom-0 z-20 max-h-[80vh] overflow-y-auto rounded-t-2xl bg-[var(--color-surface)] shadow-2xl">
-      <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-[var(--color-border)]" />
+    <div className="fixed inset-x-0 bottom-0 z-20 max-h-[80vh] overflow-y-auto rounded-t-2xl bg-[var(--color-surface)] shadow-2xl animate-sheet-up">
+      <div className="mx-auto mt-2.5 h-1 w-10 rounded-full bg-[var(--color-border)]" />
       <div className="flex flex-col gap-4 p-5 pb-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {category && (
               <span
-                className="flex h-7 w-7 items-center justify-center rounded-full text-sm"
+                className="flex h-9 w-9 items-center justify-center rounded-xl text-base"
                 style={{ backgroundColor: category.color }}
               >
                 {category.icon}
               </span>
             )}
             <div>
-              <span className="font-medium text-[var(--color-text)]">
+              <span className="font-semibold text-[var(--color-text)]">
                 {category?.name ?? 'Point'}
               </span>
               {itinerary && (
@@ -197,11 +197,26 @@ export default function PointDetailSheet({ pointId, onClose, onDeleted }: Props)
               )}
             </div>
           </div>
-          <div className="flex gap-3">
-            <button onClick={() => setEditing(!editing)} className="text-sm text-[var(--color-accent)]">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setEditing(!editing)}
+              className={[
+                'rounded-full px-3 py-1.5 text-xs font-semibold transition-colors',
+                editing
+                  ? 'bg-[var(--color-surface-2)] text-[var(--color-text-muted)]'
+                  : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]',
+              ].join(' ')}
+            >
               {editing ? 'Annuler' : 'Modifier'}
             </button>
-            <button onClick={onClose} className="text-[var(--color-text-muted)] text-xl">✕</button>
+            <button
+              onClick={onClose}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-muted)] active:scale-90 transition-transform"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -276,11 +291,18 @@ export default function PointDetailSheet({ pointId, onClose, onDeleted }: Props)
           <p className="text-xs text-red-500">{error}</p>
         )}
 
-        <div className="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
-          <span className="flex-1 mr-3 truncate">
-            {point.address ?? (loadingAddress ? 'Chargement de l\'adresse…' : '')}
+        <div className="flex items-center justify-between pt-1 border-t border-[var(--color-border)]">
+          <span className="flex-1 mr-3 truncate text-xs text-[var(--color-text-muted)]">
+            {point.address
+              ? point.address
+              : loadingAddress
+                ? <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-[var(--color-text-muted)] animate-pulse inline-block" />Localisation…</span>
+                : ''}
           </span>
-          <button onClick={handleDeletePoint} className="shrink-0 text-red-500 font-medium">
+          <button
+            onClick={handleDeletePoint}
+            className="shrink-0 rounded-lg px-2.5 py-1 text-xs font-semibold text-red-500 active:bg-red-50 transition-colors"
+          >
             Supprimer
           </button>
         </div>
