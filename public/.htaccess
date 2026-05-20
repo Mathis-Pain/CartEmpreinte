@@ -1,0 +1,36 @@
+# SPA fallback — toutes les routes inconnues → index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# HTTPS forcé
+<IfModule mod_rewrite.c>
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Cache — index.html et sw.js : jamais mis en cache (sinon les mises à jour sont bloquées)
+<FilesMatch "^(index\.html|sw\.js|workbox-.+\.js)$">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
+
+# Cache — assets hachés (JS, CSS, images) : 1 an
+<FilesMatch "\.(js|css|png|svg|ico|woff2)$">
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+
+# MIME types
+AddType application/manifest+json .webmanifest
+AddType application/manifest+json .json
+
+# Compression gzip
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
