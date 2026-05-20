@@ -19,12 +19,19 @@ export function Toast({ message, type = 'info', onDismiss }: ToastProps) {
         ? 'bg-[var(--color-accent)]'
         : 'bg-stone-700'
 
+  const icon =
+    type === 'error'   ? '✕' :
+    type === 'success' ? '✓' : 'i'
+
   return (
     <div
-      className={`fixed bottom-24 left-4 right-4 z-50 rounded-xl ${bg} px-4 py-3 text-sm text-white shadow-lg`}
+      className={`fixed bottom-24 left-4 right-4 z-50 flex items-start gap-3 rounded-2xl ${bg} px-4 py-3.5 text-sm text-white shadow-xl animate-toast-slide`}
       onClick={onDismiss}
     >
-      {message}
+      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/25 text-xs font-bold">
+        {icon}
+      </span>
+      <span className="flex-1 leading-snug">{message}</span>
     </div>
   )
 }

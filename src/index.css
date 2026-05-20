@@ -22,7 +22,7 @@ body {
   height: 100%;
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
@@ -40,3 +40,75 @@ body {
 .maplibregl-ctrl-attrib {
   font-size: 10px;
 }
+
+/* Safe area for bottom nav (notch devices) */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ── Animations ───────────────────────────────────────── */
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes toast-slide {
+  from {
+    transform: translateY(10px) scale(0.97);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spin-ring {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loading-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+
+.animate-sheet-up {
+  animation: sheet-up 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.animate-fade-in {
+  animation: fade-in 0.18s ease;
+}
+
+.animate-toast-slide {
+  animation: toast-slide 0.24s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.animate-spin-ring {
+  animation: spin-ring 0.9s linear infinite;
+}
+
+/* Input / textarea focus — consistent ring */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+/* Thin custom scrollbar */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 99px; }

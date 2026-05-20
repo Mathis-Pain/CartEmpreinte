@@ -59,14 +59,14 @@ export default function ExportView() {
 
   return (
     <div className="flex flex-1 flex-col min-h-0 bg-[var(--color-bg)]">
-      <header className="border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3">
-        <h1 className="font-semibold text-[var(--color-text)]">Export & Sauvegarde</h1>
+      <header className="border-b border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3.5">
+        <h1 className="text-base font-semibold tracking-tight text-[var(--color-text)]">Export & Sauvegarde</h1>
       </header>
 
       <div className="flex-1 overflow-y-auto p-4">
         {/* Export global */}
-        <section className="mb-6">
-          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
+        <section className="mb-5">
+          <h2 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
             Tout exporter
           </h2>
           <div className="flex flex-col gap-2">
@@ -74,70 +74,88 @@ export default function ExportView() {
               <button
                 onClick={handleExportToFolder}
                 disabled={loading === 'folder'}
-                className="flex items-center gap-3 rounded-xl bg-[var(--color-surface)] p-4 text-left disabled:opacity-60"
+                className="flex items-center gap-3.5 rounded-2xl bg-[var(--color-surface)] p-4 text-left active:scale-[0.99] transition-transform disabled:opacity-60"
+                style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
               >
-                <span className="text-2xl">📁</span>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-xl">📁</div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--color-text)]">
+                  <p className="text-sm font-semibold text-[var(--color-text)]">
                     Sauvegarder dans un dossier
                   </p>
                   <p className="text-xs text-[var(--color-text-muted)]">
                     Écrit directement sur votre appareil
                   </p>
                 </div>
+                {loading === 'folder' && (
+                  <div className="ml-auto h-4 w-4 shrink-0 rounded-full border-2 border-[var(--color-border)] border-t-[var(--color-accent)] animate-spin-ring" />
+                )}
               </button>
             )}
             <button
               onClick={handleExportAll}
               disabled={loading === 'all'}
-              className="flex items-center gap-3 rounded-xl bg-[var(--color-surface)] p-4 text-left disabled:opacity-60"
+              className="flex items-center gap-3.5 rounded-2xl bg-[var(--color-surface)] p-4 text-left active:scale-[0.99] transition-transform disabled:opacity-60"
+              style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
             >
-              <span className="text-2xl">📦</span>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-stone-100 text-xl">📦</div>
               <div>
-                <p className="text-sm font-medium text-[var(--color-text)]">
+                <p className="text-sm font-semibold text-[var(--color-text)]">
                   Télécharger en ZIP
                 </p>
                 <p className="text-xs text-[var(--color-text-muted)]">
                   Archive complète (données + photos)
                 </p>
               </div>
+              {loading === 'all' && (
+                <div className="ml-auto h-4 w-4 shrink-0 rounded-full border-2 border-[var(--color-border)] border-t-[var(--color-accent)] animate-spin-ring" />
+              )}
             </button>
           </div>
         </section>
 
         {/* Conseil */}
-        <div className="mb-6 flex gap-3 rounded-xl bg-blue-50 p-4">
-          <span className="mt-0.5 shrink-0 text-base">💡</span>
+        <div className="mb-5 flex gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-3.5">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth={2} strokeLinecap="round" className="mt-0.5 shrink-0">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
           <p className="text-xs text-blue-700 leading-relaxed">
-            <span className="font-semibold">Conseil :</span> enregistrez votre ZIP dans Google Drive, iCloud ou Dropbox pour retrouver votre sauvegarde sur tous vos appareils et ne jamais la perdre.
+            <span className="font-semibold">Conseil :</span> enregistrez votre ZIP dans Google Drive, iCloud ou Dropbox pour ne jamais perdre vos données.
           </p>
         </div>
 
         {/* Export par itinéraire */}
         {itineraries && itineraries.length > 0 && (
           <section>
-            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]">
+            <h2 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
               Par itinéraire
             </h2>
             <div className="flex flex-col gap-2">
               {itineraries.map((it) => {
                 const ptCount = points?.filter((p) => p.itineraryId === it.id).length ?? 0
+                const isLoading = loading === it.id
                 return (
                   <button
                     key={it.id}
                     onClick={() => handleExportItinerary(it.id)}
-                    disabled={loading === it.id}
-                    className="flex items-center justify-between rounded-xl bg-[var(--color-surface)] p-4 text-left disabled:opacity-60"
+                    disabled={isLoading}
+                    className="flex items-center justify-between rounded-2xl bg-[var(--color-surface)] p-4 text-left active:scale-[0.99] transition-transform disabled:opacity-60"
+                    style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
                   >
                     <div>
-                      <p className="text-sm font-medium text-[var(--color-text)]">{it.name}</p>
+                      <p className="text-sm font-semibold text-[var(--color-text)]">{it.name}</p>
                       <p className="text-xs text-[var(--color-text-muted)]">
                         {ptCount} point{ptCount !== 1 ? 's' : ''}
                       </p>
                     </div>
-                    <span className="text-xl">
-                      {loading === it.id ? '⏳' : '⬇️'}
-                    </span>
+                    {isLoading ? (
+                      <div className="h-5 w-5 rounded-full border-2 border-[var(--color-border)] border-t-[var(--color-accent)] animate-spin-ring" />
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                      </svg>
+                    )}
                   </button>
                 )
               })}
@@ -146,11 +164,18 @@ export default function ExportView() {
         )}
 
         {(!itineraries || itineraries.length === 0) && (
-          <div className="flex flex-col items-center gap-3 py-12 text-center">
-            <span className="text-5xl">📤</span>
-            <p className="text-sm text-[var(--color-text-muted)]">
-              Aucun itinéraire à exporter.
-            </p>
+          <div className="flex flex-col items-center gap-4 py-16 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-surface)]">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[var(--color-text)]">Rien à exporter</p>
+              <p className="mt-1 text-xs text-[var(--color-text-muted)]">Créez des itinéraires pour les exporter ici.</p>
+            </div>
           </div>
         )}
 
