@@ -280,7 +280,6 @@ export default function PointDetailSheet({ pointId, onClose, onDeleted }: Props)
               type="file"
               accept="image/*"
               multiple
-              capture="environment"
               className="hidden"
               onChange={handleAddPhotos}
             />
