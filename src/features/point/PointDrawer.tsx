@@ -237,7 +237,6 @@ export default function PointDrawer({ lat, lng, onClose, onCreated }: Props) {
             type="file"
             accept="image/*"
             multiple
-            capture="environment"
             className="hidden"
             onChange={handleFileChange}
           />

@@ -12,7 +12,7 @@ CartEmpreinte est une Progressive Web App qui permet de poser des marqueurs colo
 - **Points libres** — un tap sur la carte crée un point, avec description et photos
 - **Itinéraires** — regroupement de points par voyage ou activité
 - **Catégories personnalisées** — couleur et icône libres (vélo, randonnée, camping…)
-- **Photos** — capture directe depuis la caméra ou import galerie
+- **Photos** — import depuis la galerie ou capture via la caméra (au choix)
 - **Adresse automatique** — résolution Nominatim au premier affichage, sauvegardée localement
 - **Filtres** — afficher/masquer les itinéraires sur la carte
 - **Export ZIP** — archive complète (données JSON + photos) téléchargeable
@@ -178,12 +178,16 @@ pnpm preview     # prévisualise le build sur http://localhost:4173
 
 ### Déploiement
 
-Le dossier `dist/` produit est un site statique autonome. Il peut être servi par n'importe quel hébergeur statique :
+L'app est déployée en sous-app à `https://mathispain.fr/CartEmpreinte/`. La config Vite inclut `base: '/CartEmpreinte/'` pour que tous les assets soient correctement préfixés.
+
+Le dossier `dist/` peut aussi être servi par n'importe quel hébergeur statique :
 
 - **Vercel** : `vercel --prod`
 - **Netlify** : glisser-déposer le dossier `dist/`
 - **GitHub Pages** : déployer la branche `gh-pages` avec le contenu de `dist/`
 - **Nginx** : pointer le `root` vers `dist/`, activer `try_files $uri /index.html`
+
+> Pour un déploiement en sous-dossier, penser à adapter `base` dans `vite.config.ts` et `start_url` / `scope` dans `public/manifest.json`.
 
 > Le Service Worker requiert HTTPS en production (ou `localhost` en développement).
 
