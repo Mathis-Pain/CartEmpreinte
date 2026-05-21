@@ -86,7 +86,8 @@ export default function SearchBar({ onSelect }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Rechercher une ville…"
-          className="flex-1 min-w-0 bg-transparent text-xs font-medium outline-none placeholder-gray-400 md:text-base"
+          className="flex-1 min-w-0 bg-transparent text-[16px] font-medium outline-none placeholder-gray-400 md:text-base"
+          style={{ touchAction: 'manipulation' }}
         />
         {loading && <Spinner />}
         <button onClick={handleClose} className="shrink-0 text-gray-400 p-0.5" aria-label="Fermer">
