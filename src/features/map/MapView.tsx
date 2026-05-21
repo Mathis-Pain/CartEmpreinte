@@ -7,6 +7,7 @@ import { createMarkerElement } from '../../core/map/markers'
 import PointDrawer from '../point/PointDrawer'
 import PointDetailSheet from '../point/PointDetailSheet'
 import FilterSheet from './FilterSheet'
+import SearchBar from './SearchBar'
 
 export default function MapView() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -94,13 +95,19 @@ export default function MapView() {
     <div className="relative flex-1 h-full w-full">
       <div ref={containerRef} className="absolute inset-0" />
 
+      <SearchBar
+        onSelect={(lat, lng) => {
+          mapRef.current?.flyTo({ center: [lng, lat], zoom: 13, duration: 1200 })
+        }}
+      />
+
       {/* Bouton filtres */}
       <button
         onClick={() => setShowFilters(true)}
-        className="absolute left-3 top-3 z-10 flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-2 text-xs font-semibold text-[var(--color-text)] active:scale-95 transition-transform"
+        className="absolute left-3 top-3 z-10 flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-2 text-xs font-semibold text-[var(--color-text)] active:scale-95 transition-transform md:h-[75px] md:px-6 md:gap-3 md:text-base"
         style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
+        <svg className="w-[15px] h-[15px] md:w-[29px] md:h-[29px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
           <line x1="4" y1="6" x2="20" y2="6" />
           <line x1="8" y1="12" x2="20" y2="12" />
           <line x1="12" y1="18" x2="20" y2="18" />
