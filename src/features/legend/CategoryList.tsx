@@ -12,7 +12,7 @@ const PRESET_COLORS = [
   '#7c3aed', '#db2777', '#ea580c', '#64748b',
 ]
 
-const PRESET_ICONS = ['🚴', '🚶', '⛺', '🏔️', '🚗', '🏍️', '🚐', '🚤', '✈️', '🏕️', '📍', '🌟']
+const PRESET_ICONS = ['🚴', '🚶', '⛺', '🏔️', '🚗', '🏍️', '🚐', '🚤', '✈️', '🏕️', '📍', '🌟', '🚌', '🛖', '🏢', '🏠', '🎒']
 
 export default function CategoryList() {
   const categories = useLiveQuery(() => db.categories.orderBy('createdAt').toArray(), [])
